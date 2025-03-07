@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Padding from "@/components/Padding"
 import { createClient } from "@/utils/supabase/client"
+import styles from './page.module.css';
 
 export default function GamePage() {
    const router = useRouter()
@@ -76,19 +77,24 @@ export default function GamePage() {
 
    if (loading) {
       return (
-         <div className="flex items-center justify-center h-screen">
-            <p className="text-2xl">Cargando...</p>
+         <div className="flex items-center justify-center h-screen" >
+            <div className = {styles.typewriter}>
+               <p className="text-2xl ">Cargando...</p>
+            </div>
+
          </div>
       );
    }
 
    if (initial) {
       return (
-         <Padding>
-            <div className="flex items-center justify-center h-screen">
+         <div className="flex items-center justify-center h-screen styles.typewriter">
+               <div className = {styles.typewriter}>
                <p className="text-2xl">Bienvenido, por favor crea tu personaje</p>
+               <p className="text-2xl">¿Cómo funciona esto?</p>
+               <p className="text-2xl">Sigue las instrucciones...</p>
             </div>
-         </Padding>
+         </div>
       )
    }
 
