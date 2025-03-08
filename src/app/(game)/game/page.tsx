@@ -81,7 +81,6 @@ export default function GamePage() {
             <div className = {styles.typewriter}>
                <p className="text-2xl ">Cargando...</p>
             </div>
-
          </div>
       );
    }
