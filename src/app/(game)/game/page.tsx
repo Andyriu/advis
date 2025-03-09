@@ -15,7 +15,7 @@ export default function GamePage() {
    const [life, setLife] = useState(0)
    const [defense, setDefense] = useState(0)
    const [loading, setLoading] = useState(true)
-   const [initial, setInitial] = useState(false)
+
 
    useEffect (() => {
       const fetchData = async () => {
@@ -67,13 +67,13 @@ export default function GamePage() {
                setLife(player.life)
                setDefense(player.defense)
             } else {
-               setInitial(true)
+               router.push("/game/initial")
             }
             setLoading(false)
          }
          fetchData(uuid)
       }
-   }, [uuid])
+   }, [uuid, router])
 
    if (loading) {
       return (
@@ -85,17 +85,6 @@ export default function GamePage() {
       );
    }
 
-   if (initial) {
-      return (
-         <div className="flex items-center justify-center h-screen styles.typewriter">
-               <div className = {styles.typewriter}>
-               <p className="text-2xl">Bienvenido, por favor crea tu personaje</p>
-               <p className="text-2xl">¿Cómo funciona esto?</p>
-               <p className="text-2xl">Sigue las instrucciones...</p>
-            </div>
-         </div>
-      )
-   }
 
    return (
       <Padding>
