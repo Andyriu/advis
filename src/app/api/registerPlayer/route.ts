@@ -6,7 +6,7 @@ async function registerPlayer(uuid: string, name: string) {
    const supabase = createClient();
    const { data, error } = await (await supabase)
       .from('player')
-      .insert([{ user_id:uuid, name_player:name, life:100, defense:10 }])
+      .insert([{ user_id:uuid, name_player:name, life:100, defense:10, level: 1 }])
       .select();
 
    if (error) {

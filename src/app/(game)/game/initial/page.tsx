@@ -129,7 +129,7 @@ export default function GameInitialPage() {
                </div>
             </div>
             <div className="flex flex-col items-center mt-4">
-               <div className="fixed bottom-0 w-full text-center p-4 ">
+               <div className="fixed bottom-0 w-full text-center p-4 text-unique-100">
                   <p>Presiona Enter para continuar</p>
                </div>
             </div>
@@ -153,7 +153,7 @@ export default function GameInitialPage() {
                placeholder="Escribe tu nombre"
             />
             <div className="flex flex-col items-center mt-4">
-               <div className="fixed bottom-0 w-full text-center p-4 ">
+               <div className="fixed bottom-0 w-full text-center p-4 text-unique-100">
                   {
                      val && <p>El nombre debe tener al menos 3 letras</p>
                   }
@@ -175,7 +175,7 @@ export default function GameInitialPage() {
                </div>
             </div>
             <div className="flex flex-col items-center mt-4">
-               <div className="fixed bottom-0 w-full text-center p-4 ">
+               <div className="fixed bottom-0 w-full text-center p-4 text-unique-100">
                   <p>Presiona Enter para continuar</p>
                </div>
             </div>

@@ -1,9 +1,10 @@
 .typewriter p {
-  overflow: hidden; /* Ensures the content is not revealed until the animation */
-  border-right: 0.15em solid orange; /* The typwriter cursor */
-  white-space: nowrap; /* Keeps the content on a single line */
-  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
-  letter-spacing: 0.15em; /* Adjust as needed */
+  color: #EEEEEE;
+  overflow: hidden;
+  border-right: 0.15em solid #9B7EBD;
+  white-space: nowrap;
+  margin: 0 auto;
+  letter-spacing: 0.15em;
   animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
 }
 
@@ -23,18 +24,21 @@
     border-color: transparent;
   }
   50% {
-    border-color: orange;
+    border-color: #9B7EBD;
   }
 }
 
-.typewriter p:nth-child(1) {
-  animation-delay: 0s;
+
+.cursor {
+  display: inline-block;
+  width: 0.5em;
+  height: 1em;
+  background-color: #9B7EBD;
+  animation: blink 1s steps(2, start) infinite;
 }
 
-.typewriter p:nth-child(2) {
-  animation-delay: 3.5s;
-}
-
-.typewriter p:nth-child(3) {
-  animation-delay: 7s;
+@keyframes blink {
+  to {
+     visibility: hidden;
+  }
 }
