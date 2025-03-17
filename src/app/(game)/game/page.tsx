@@ -6,22 +6,81 @@ import Padding from "@/components/Padding";
 import { createClient } from "@/utils/supabase/client";
 import styles from "./page.module.css";
 import { commands } from "@/utils/commands/commands";
+import useCheckEmail from "@/hooks/useCheckEmail";
+import useCheckPlayer from "@/hooks/useCheckPlayer";
+import useCheckAttributes from "@/hooks/useChechAttributes";
 
 export default function GamePage() {
    const router = useRouter();
    const inputRef = useRef(null);
 
-   const [email, setEmail] = useState("");
-   const [uuid, setUuid] = useState("");
-   const [name, setName] = useState("");
-   const [health, sethealth] = useState(0);
-   const [defense, setDefense] = useState(0);
-   const [money, setMoney] = useState(0);
-   const [level, setLevel] = useState(0);
-   const [exp, setExp] = useState(0);
+   const [email, setEmail] = useState<string | null>(null);
+   const [uuid, setUuid] = useState<string | null>(null);
+   const [name, setName] = useState<string | null>(null);
+   const [health, sethealth] = useState<number | null>(null);
+   const [defense, setDefense] = useState<number | null>(null);
+   const [money, setMoney] = useState<number | null>(null);
+   const [level, setLevel] = useState<number | null>(null);
+   const [exp, setExp] = useState<number | null>(null);
    const [loading, setLoading] = useState(true);
-   const [comand, setComand] = useState("");
-   const [valName, setValName] = useState(false)
+   const [comand, setComand] = useState<string | null>(null);
+   const [existPlayer, setExistPlayer] = useState <boolean>(false)
+   const {checkPlayer} = useCheckPlayer();
+   const {checkAttributes} = useCheckAttributes();
+
+   useEffect(() => {
+      const fetchData = async () => {
+         const supabase = createClient();
+         const { data, error } = await supabase.auth.getUser();
+         if (error || !data?.user) {
+            router.push("/login");
+         } else {
+            setEmail(data.user.email);
+            setExistPlayer(true)
+         }
+      };
+      fetchData();
+   }, [router, existPlayer]);
+
+   useEffect(() => {
+      if (email) {
+         const fetchData = async (email: string) => {
+            const {valid, data, error} = await checkPlayer(email)
+            if (!valid) {
+               console.log(error)
+               router.push('/game')
+            } else {
+               if (data.name){
+                  setUuid(data.id)
+                  setName(data.name)
+               } else {
+                  router.push('/initial')
+               }
+            }
+         }
+         fetchData(email)
+      };
+   }, [email, checkPlayer, router]);
+
+   useEffect (() => {
+      if (name) {
+         const fetchData = async (uuid: string) => {
+            const {valid, data, error} = await checkAttributes(uuid)
+            if (!valid) {
+               console.log(error)
+               router.push('/game')
+            } else {
+               setLevel(data.level)
+               sethealth(data.health)
+               setDefense(data.defense)
+               setMoney(data.money)
+               setExp(data.exp)
+               setLoading(false)
+            }
+         }
+         fetchData(uuid)
+      }
+   },[name, uuid, checkAttributes, router])
 
    const executeCommand = useCallback(
       (commandText) => {
@@ -73,70 +132,6 @@ export default function GamePage() {
       };
    }, []);
 
-   useEffect(() => {
-      const fetchData = async () => {
-         const supabase = createClient();
-         const { data, error } = await supabase.auth.getUser();
-         if (error || !data?.user) {
-            router.push("/login");
-         } else {
-            setEmail(data.user.email);
-         }
-      };
-      fetchData();
-   }, [router]);
-
-   useEffect(() => {
-      if (email) {
-         const fetchData = async (email) => {
-            const response = await fetch("/api/checkPlayer", {
-               method: "POST",
-               body: JSON.stringify({ email }),
-               headers: {
-                  "content-type": "application/json",
-               },
-            });
-            const { exists, player } = await response.json();
-            console.log(exists, player);
-            if (player.name) {
-               setUuid(player.id);
-               setName(player.name)
-               setValName(true)
-            }
-         };
-         fetchData(email);
-      }
-   }, [email]);
-
-   useEffect(() => {
-      console.log(name, "exaCTAMENTE ESTE NOMBRE SI APARECE O NO")
-      console.log(uuid)
-      if (setValName) {
-         const fetchData = async (uuid) => {
-            const response = await fetch("/api/checkAttributes", {
-               method: "POST",
-               body: JSON.stringify({ uuid }),
-               headers: {
-                  "content-type": "application/json",
-               },
-            });
-            const { exists, player } = await response.json();
-            console.log(exists, player);
-            if (exists) {
-               setName(player.name);
-               setLevel(player.level)
-               sethealth(player.health)
-               setDefense(player.defense)
-               setMoney(player.money)
-               setExp(player.exp)
-               setLoading(false);
-            }
-         };
-         fetchData(uuid);
-      } else {
-         router.push("game/initial")
-      }
-   }, [uuid, name, router]);
 
    useEffect(() => {
       const key = (event) => {
