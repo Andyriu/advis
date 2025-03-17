@@ -14,10 +14,14 @@ export default function GamePage() {
    const [email, setEmail] = useState("");
    const [uuid, setUuid] = useState("");
    const [name, setName] = useState("");
-   const [life, setLife] = useState(0);
+   const [health, sethealth] = useState(0);
    const [defense, setDefense] = useState(0);
+   const [money, setMoney] = useState(0);
+   const [level, setLevel] = useState(0);
+   const [exp, setExp] = useState(0);
    const [loading, setLoading] = useState(true);
    const [comand, setComand] = useState("");
+   const [valName, setValName] = useState(false)
 
    const executeCommand = useCallback(
       (commandText) => {
@@ -33,7 +37,7 @@ export default function GamePage() {
       const action = commands[command];
 
       if (action) {
-         return action(...args, setLife, setDefense);
+         return action(...args);
       } else {
          return `Comando no reconocido: ${command}`;
       }
@@ -85,17 +89,19 @@ export default function GamePage() {
    useEffect(() => {
       if (email) {
          const fetchData = async (email) => {
-            const response = await fetch("/api/checkUser", {
+            const response = await fetch("/api/checkPlayer", {
                method: "POST",
                body: JSON.stringify({ email }),
                headers: {
                   "content-type": "application/json",
                },
             });
-            const { exists, user } = await response.json();
-            console.log(exists, user);
-            if (exists) {
-               setUuid(user.id);
+            const { exists, player } = await response.json();
+            console.log(exists, player);
+            if (player.name) {
+               setUuid(player.id);
+               setName(player.name)
+               setValName(true)
             }
          };
          fetchData(email);
@@ -103,9 +109,11 @@ export default function GamePage() {
    }, [email]);
 
    useEffect(() => {
-      if (uuid) {
+      console.log(name, "exaCTAMENTE ESTE NOMBRE SI APARECE O NO")
+      console.log(uuid)
+      if (setValName) {
          const fetchData = async (uuid) => {
-            const response = await fetch("/api/checkPlayer", {
+            const response = await fetch("/api/checkAttributes", {
                method: "POST",
                body: JSON.stringify({ uuid }),
                headers: {
@@ -116,16 +124,19 @@ export default function GamePage() {
             console.log(exists, player);
             if (exists) {
                setName(player.name);
-               setLife(player.life);
-               setDefense(player.defense);
+               setLevel(player.level)
+               sethealth(player.health)
+               setDefense(player.defense)
+               setMoney(player.money)
+               setExp(player.exp)
                setLoading(false);
-            } else {
-               router.push("/game/initial");
             }
          };
          fetchData(uuid);
+      } else {
+         router.push("game/initial")
       }
-   }, [uuid, router]);
+   }, [uuid, name, router]);
 
    useEffect(() => {
       const key = (event) => {
@@ -171,10 +182,13 @@ export default function GamePage() {
                </div>
                <div className="p-7 bg-unique-500 rounded-xl">
                   <h1 className="bg-unique-100">como esta distribuido esto?</h1>
-                  {uuid && <p className="bg-unique-100">id:{uuid}</p>}
-                  {uuid && <p className="bg-unique-100">vida:{life}</p>}
-                  {uuid && <p className="bg-unique-100">defensa:{defense}</p>}
-                  {uuid && <p className="bg-unique-100">nombre:{name}</p>}
+                  {name && <p className="bg-unique-100">nombre:{name}</p>}
+                  {name && <p className="bg-unique-100">id:{uuid}</p>}
+                  {name && <p className="bg-unique-100">vida:{health}</p>}
+                  {name && <p className="bg-unique-100">defensa:{defense}</p>}
+                  {name && <p className="bg-unique-100">Nivel:{level}</p>}
+                  {name && <p className="bg-unique-100">Exp:{exp}</p>}
+                  {name && <p className="bg-unique-100">Dinero:{money}</p>}
                </div>
             </div>
             <div>

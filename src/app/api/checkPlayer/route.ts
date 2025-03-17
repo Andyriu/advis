@@ -4,12 +4,12 @@ import { createClient } from "@/utils/supabase/server"
 
 export async function POST (req: Request): Promise<Response> {
    const supabase = await createClient()
-   const {uuid} = await req.json()
+   const {email} = await req.json()
 
    const {data, error} = await supabase
-      .from('player')
+      .from('players')
       .select('*')
-      .eq('user_id', uuid)
+      .eq('email', email)
    
    if (error) {
       console.error ('Error en la base de datos', error)
@@ -20,6 +20,7 @@ export async function POST (req: Request): Promise<Response> {
    }
    
    const player = data[0];
+   console.log(player, "pruba y erorr", player.name)
    if (data.length === 0) {
       return new Response(
          JSON.stringify({ exists: false }),
@@ -27,7 +28,7 @@ export async function POST (req: Request): Promise<Response> {
       )
    } else {
       return new Response(
-         JSON.stringify({ exists: true, player: {id: player.user_id, name: player.name_player, life: player.life, defense: player.defense} }),
+         JSON.stringify({ exists: true, player: {id: player.player_id, name: player.name} }),
          { status: 200 }
       )
    }

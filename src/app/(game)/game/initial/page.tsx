@@ -30,29 +30,9 @@ export default function GameInitialPage() {
    useEffect(() => {
       if (email) {
          const fetchData = async (email) => {
-            const response = await fetch("/api/checkUser", {
-               method: "POST",
-               body: JSON.stringify({ email }),
-               headers: {
-                  "content-type": "application/json",
-               },
-            });
-            const { exists, user } = await response.json();
-            console.log(exists, user);
-            if (exists) {
-               setUuid(user.id);
-            }
-         };
-         fetchData(email);
-      }
-   }, [email]);
-
-   useEffect(() => {
-      if (uuid) {
-         const fetchData = async (uuid) => {
             const response = await fetch("/api/checkPlayer", {
                method: "POST",
-               body: JSON.stringify({ uuid }),
+               body: JSON.stringify({ email }),
                headers: {
                   "content-type": "application/json",
                },
@@ -60,26 +40,26 @@ export default function GameInitialPage() {
             const { exists, player } = await response.json();
             console.log(exists, player);
             if (exists) {
-               router.push("/game");
+               setUuid(player.id);
             }
          };
-         fetchData(uuid);
+         fetchData(email);
       }
-   }, [uuid, router]);
+   }, [email]);
 
    useEffect(() => {
       if (confirmation){
          const fetchData = async (uuid, name) => {
-            const response = await fetch("/api/registerPlayer", {
+            const response = await fetch("/api/registerName", {
                method: "POST",
                body: JSON.stringify({ uuid, name }),
                headers: {
                   "content-type": "application/json",
                },
             });
-            const result = await response.json();
-            console.log(result)
-            if (result) {
+            const {correctRegister} = await response.json();
+            console.log(correctRegister)
+            if (correctRegister) {
                router.push("/game");
             }
          };
@@ -148,7 +128,7 @@ export default function GameInitialPage() {
                type="text"
                value={name}
                onChange={(event) => setName(event.target.value)}
-               autoFocus // Enfocar automáticamente
+               autoFocus
                className="opacity-0 absolute"
                placeholder="Escribe tu nombre"
             />

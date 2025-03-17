@@ -8,7 +8,6 @@ export default function RegisterPage () {
    const [email, setEmail] = useState("")
    const [password, setPassword] = useState("")
    const [error, setError] = useState("")
-   const [succes, setSucces] = useState(false)
    
    const chekEmail = async (email) => {
       const response = await fetch ('/api/chekEmail', {
@@ -29,18 +28,15 @@ export default function RegisterPage () {
       if (exists) {
          setError("Este correo ya esta registrado")
       } else {
-         const formData = new FormData();
-         formData.append("email", email);
-         formData.append("password", password);
          const response = await fetch("/api/register", {
             method: "POST",
-            body: formData,
+            body: JSON.stringify({ email, password })
          });
-         if (error) {
-            setError (error.message)
+         const result = await response.json();
+         console.log(result);
+         if (!result) {
+            setError("Error, por favor intentalo mas tarde");
          } else {
-            setSucces(true)
-            setError(null)
             router.push('/game')
          }
       }

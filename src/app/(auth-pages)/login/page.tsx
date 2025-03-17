@@ -4,40 +4,26 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Padding from "@/components/Padding";
 import Link from "next/link";
+import useCheckEmail from "@/hooks/useCheckEmail";
 
 export default function LoginPage() {
    const router = useRouter();
    const [email, setEmail] = useState("");
    const [password, setPassword] = useState("");
    const [error, setError] = useState("");
+   const { checkEmail } = useCheckEmail()
 
-   const chekEmail = async (email) => {
-      const response = await fetch('/api/chekEmail', {
-         method: 'POST',
-         body: JSON.stringify({ email }),
-         headers: {
-            'Content-Type': 'application/json'
-         }
-      })
-   const { exists, user } = await response.json()
-   console.log(exists, user)
-   return {exists}
-   }
-   
    const handleLogin = async (e) => {
       e.preventDefault();
-      const { exists } = await chekEmail(email);
-      if (exists) {
-         const formData = new FormData();
-         formData.append('email', email);
-         formData.append('password', password);
+      const { exist } = await checkEmail(email);
+      console.log(exist)
+      if (exist) {
          const response = await fetch('/api/login', {
             method: 'POST',
-            body: formData
+            body: JSON.stringify({ email, password })
          });
-         const result = await response.json();
-         console.log(result);
-         if (!result) {
+         const {succes} = await response.json();
+         if (!succes) {
             setError("Error al iniciar sesion por favor verifica tus credenciales");
          } else {
             router.push('/game');
@@ -111,14 +97,6 @@ export default function LoginPage() {
                               </button>
                            </div>
                         </form>
-                        <div className="flex justify-center">
-                           <button
-                              //onClick={handleLoginGoogle}
-                              className="bg-unique-300 p-2 rounded-lg font-semibold text-unique-900 border-unique-850 hover:bg-unique-400 w-full"
-                           >
-                              Inicia con Google
-                           </button>
-                        </div>
                      </div>
                   </div>
                </div>

@@ -1,23 +1,25 @@
+'use server'
+
 import { createClient } from "@/utils/supabase/server"
 
 export async function POST (req: Request): Promise<Response> {
    const supabase = await createClient()
-   const { email } = await req.json()
+   const {uuid} = await req.json()
+   console.log (uuid, "Esto si funciona")
+   const {data, error} = await supabase
+      .from('attributes')
+      .select('*')
+      .eq('player_id', uuid)
    
-   const { data, error } = await supabase
-      .from("players")
-      .select("*")
-      .eq("email", email)
-      console.log(data)
-
    if (error) {
       console.error ('Error en la base de datos', error)
       return new Response(
-         JSON.stringify({ errror: 'Error mirando el correo' }),
+         JSON.stringify({ errror: 'Error mirando atributos' }),
          { status: 500 }
       )
    }
-   const user = data[0];
+   
+   const player = data[0];
    if (data.length === 0) {
       return new Response(
          JSON.stringify({ exists: false }),
@@ -25,8 +27,8 @@ export async function POST (req: Request): Promise<Response> {
       )
    } else {
       return new Response(
-         JSON.stringify({ exists: true, user: {id: user.player_id, email: user.email} }),
+         JSON.stringify({ exists: true, player: {id: player.player_id, level: player.level, health: player.health, defense: player.defense, money: player.money, exp: player.exp} }),
          { status: 200 }
       )
    }
-}  
+}
