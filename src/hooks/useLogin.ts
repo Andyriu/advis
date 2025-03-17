@@ -8,7 +8,7 @@ const useLogin = () => {
       email: string,
       password: string,
    ): Promise<ILoginResponse> => {
-      const response = await fetch("/api/Login", {
+      const response = await fetch("/api/login", {
          method: "POST",
          headers: {
             "content-Type": "application/json",
