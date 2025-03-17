@@ -1,37 +1,45 @@
-'use server'
+import { createClient } from "@/utils/supabase/server";
+import { NextResponse } from "next/server";
 
-import { createClient } from "@/utils/supabase/server"
+interface ILoginResponse {
+   valid: boolean;
+   error?: string;
+}
 
-
-async function register (email, password) {
-   const supabase = await createClient()
+async function register(email, password) {
+   const supabase = await createClient();
    const { error } = await supabase.auth.signUp({
-      email, 
-      password
-   })
-   return { success: !error, error }
-}
-
-async function registerEmail (email) {
-   const supabase = await createClient()
-   const { error } = await supabase
-      .from('players')
-      .insert([{ email: email }])
-      .select()
-   console.log(error)
-   return { success: !error, error }
-}
-
-export async function POST (req: Request): Promise<Response> {
-   const {email, password} = await req.json()
-   const response = await register(email, password)
-   const emailResponse = await registerEmail(email)
-   console.log(response)
-   return new Response(
-      JSON.stringify({ ...response, emailResponse }), {
-         headers: {
-            'content-type': 'application/json'
-         }
+      email,
+      password,
+   });
+   if (error) {
+      return { success: !error, error };
+   } else {
+      const { error } = await supabase
+         .from("players")
+         .insert([{ email: email }])
+         .select();
+      if (error) {
+         return { success: !error, error };
+      } else {
+         return { success: !error, error };
       }
-   )
+   }
+}
+
+export async function POST( req: Request ): Promise<NextResponse<ILoginResponse>> {
+   const { email, password } = await req.json();
+   const { success } = await register(email, password);
+   console.log(success);
+   if (!success) {
+      return NextResponse.json(
+         { valid: false, error: "Error, prueba otra vez en otro momento" },
+         { status: 200 },
+      );
+   } else {
+      return NextResponse.json(
+         { valid: true },
+         { status: 200 },
+      );
+   }
 }
