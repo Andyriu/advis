@@ -7,9 +7,7 @@ interface ICheckEmailResponse {
    error?: string;
 }
 
-export async function POST(
-   req: Request,
-): Promise<NextResponse<ICheckEmailResponse>> {
+export async function POST (req: Request,): Promise<NextResponse<ICheckEmailResponse>> {
    const supabase = await createClient();
    const { email } = await req.json();
    if (email.length == 0) {
@@ -22,7 +20,6 @@ export async function POST(
          .from("players")
          .select("*")
          .eq("email", email);
-      console.log(data);
 
       if (error) {
          console.error("Error en la base de datos", error);
