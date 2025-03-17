@@ -31,7 +31,7 @@ export async function POST (req: Request,): Promise<NextResponse<ICheckEmailResp
       const user = data[0];
       if (data.length === 0) {
          return NextResponse.json(
-            { exists: false },
+            { exists: false, error: "El correo no existe" },
             { status: 200 },
          );
       } else {
