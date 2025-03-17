@@ -2,40 +2,26 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import useCheckEmail from "@/hooks/useCheckEmail"
+import useRegister from "@/hooks/useRegister"
 
 export default function RegisterPage () {
    const router = useRouter()
    const [email, setEmail] = useState("")
    const [password, setPassword] = useState("")
    const [error, setError] = useState("")
+   const { checkEmail } = useCheckEmail();
+   const { register } = useRegister();
    
-   const chekEmail = async (email) => {
-      const response = await fetch ('/api/chekEmail', {
-         method: 'POST',
-         body: JSON.stringify({ email }),
-         headers: {
-            'Content-Type': 'application/json'
-         }
-      })
-      const {exists} = await response.json()
-      console.log(exists)
-      return {exists}
-   }
-
    const handleRegister = async (e) => {
       e.preventDefault()
-      const {exists} = await chekEmail(email)
-      if (exists) {
+      const { exist } = await checkEmail(email)
+      if (exist) {
          setError("Este correo ya esta registrado")
       } else {
-         const response = await fetch("/api/register", {
-            method: "POST",
-            body: JSON.stringify({ email, password })
-         });
-         const result = await response.json();
-         console.log(result);
-         if (!result) {
-            setError("Error, por favor intentalo mas tarde");
+         const {valid, error} = await register(email, password)
+         if (!valid) {
+            setError(error);
          } else {
             router.push('/game')
          }
