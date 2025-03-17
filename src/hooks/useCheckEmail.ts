@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 interface ICheckEmailResponse {
    exist: boolean;
    data?: object;
