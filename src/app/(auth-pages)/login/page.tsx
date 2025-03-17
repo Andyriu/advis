@@ -18,7 +18,6 @@ export default function LoginPage() {
    const handleLogin = async (e) => {
       e.preventDefault();
       const { exist } = await checkEmail(email);
-      console.log(exist);
       if (exist) {
          const { valid, error } = await login(email, password);
          if (!valid) {
