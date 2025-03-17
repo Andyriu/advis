@@ -1,33 +1,44 @@
-'use server'
-
 import { createClient } from "@/utils/supabase/server"
+import { NextResponse } from "next/server"
 
-export async function POST (req: Request): Promise<Response> {
+interface IAttributes {
+   level: number
+   health: number
+   defense: number
+   money: number
+   exp: number
+}
+
+interface ICheckAttributesResponse {
+   valid: boolean
+   data?: IAttributes
+   error?: string
+}
+
+export async function POST (req: Request): Promise<NextResponse<ICheckAttributesResponse>> {
    const supabase = await createClient()
-   const {uuid} = await req.json()
-   console.log (uuid, "Esto si funciona")
+   const { uuid } = await req.json()
    const {data, error} = await supabase
       .from('attributes')
       .select('*')
       .eq('player_id', uuid)
    
    if (error) {
-      console.error ('Error en la base de datos', error)
-      return new Response(
-         JSON.stringify({ errror: 'Error mirando atributos' }),
+      return NextResponse.json(
+         { valid: false, errror: 'Error mirando atributos' },
          { status: 500 }
       )
    }
    
    const player = data[0];
    if (data.length === 0) {
-      return new Response(
-         JSON.stringify({ exists: false }),
+      return NextResponse.json(
+         { valid: false, error: "No se encontraron attributes"},
          { status: 200 }
       )
    } else {
-      return new Response(
-         JSON.stringify({ exists: true, player: {id: player.player_id, level: player.level, health: player.health, defense: player.defense, money: player.money, exp: player.exp} }),
+      return NextResponse.json(
+         { valid: true, data: { level: player.level, health: player.health, defense: player.defense, money: player.money, exp: player.exp} },
          { status: 200 }
       )
    }
