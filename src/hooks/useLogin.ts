@@ -3,11 +3,8 @@ interface ILoginResponse {
    error?: string;
 }
 
-const useLogin = () => {
-   const login = async (
-      email: string,
-      password: string,
-   ): Promise<ILoginResponse> => {
+const useLogin = () => { 
+   const login = async ( email: string, password: string,):  Promise<ILoginResponse> => {
       const response = await fetch("/api/login", {
          method: "POST",
          headers: {
