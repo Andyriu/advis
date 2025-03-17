@@ -18,8 +18,6 @@ const useCheckEmail = () => {
       const { exists, player, error} = await response.json();
       if (error) {
          return {exist: exists, error: error}
-      } else if (!exists) {
-         return {exist: exists, error: error}
       } else {
          return {exist: exists, data: player}
       }
