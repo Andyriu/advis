@@ -18,16 +18,16 @@ async function Login (email, password) {
 
 export async function POST (req: Request): Promise<NextResponse<ILoginResponse>> {
    const {email, password} = await req.json()
-   const response = await Login(email, password)
-   if (response) {
+   const { succes } = await Login(email, password)
+   if (succes) {
       return NextResponse.json(
          { valid: true},
          { status: 200 }
       )
    } else {
       return NextResponse.json(
-         {valid: false, error: 'credenciales incorrectas, verifica la informarcion' }, 
-         { status: 406 }
+         {valid: false, error: 'credenciales incorrectas, verifica la informacion' }, 
+         { status: 200 }
       )
    }
 }
