@@ -6,7 +6,7 @@ interface ICheckEmailResponse {
 
 const useCheckEmail = () => {
    const checkEmail = async (email: string): Promise<ICheckEmailResponse> => {
-      const response = await fetch("/api/chekEmail", {
+      const response = await fetch("/api/checkEmail", {
          method: "POST",
          headers: {
             "content-Type": "application/json",
