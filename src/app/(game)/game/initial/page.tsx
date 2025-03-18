@@ -4,15 +4,21 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import { createClient } from "@/utils/supabase/client";
+import useCheckPlayer from "@/hooks/useCheckPlayer";
+import useRegisterName from "@/hooks/useRegisterName";
 
 export default function GameInitialPage() {
+   const router = useRouter();
+
    const [count, setCount] = useState(0);
    const [name , setName] = useState("");
    const [val, setVal] = useState(false);
    const [email, setEmail] = useState("");
    const [uuid, setUuid] = useState("");
    const [confirmation, setConfirmation] = useState(false);
-   const router = useRouter();
+   const [error, setError] = useState("")
+   const {checkPlayer} = useCheckPlayer();
+   const {registerName} = useRegisterName();
 
    useEffect(() => {
       const fetchData = async () => {
@@ -29,43 +35,36 @@ export default function GameInitialPage() {
 
    useEffect(() => {
       if (email) {
-         const fetchData = async (email) => {
-            const response = await fetch("/api/checkPlayer", {
-               method: "POST",
-               body: JSON.stringify({ email }),
-               headers: {
-                  "content-type": "application/json",
-               },
-            });
-            const { exists, player } = await response.json();
-            console.log(exists, player);
-            if (exists) {
-               setUuid(player.id);
+         const fetchData = async (email: string) => {
+            const {valid, data, error} = await checkPlayer(email)
+            if (!valid) {
+               console.log(error)
+               router.push('/game/initial')
+            } else {
+               if (data.name) {
+                  router.push('/game')
+               } else {
+                  setUuid(data.id)
+               }
             }
          };
          fetchData(email);
       }
-   }, [email]);
+   }, [email, checkPlayer, router]);
 
    useEffect(() => {
       if (confirmation){
          const fetchData = async (uuid, name) => {
-            const response = await fetch("/api/registerName", {
-               method: "POST",
-               body: JSON.stringify({ uuid, name }),
-               headers: {
-                  "content-type": "application/json",
-               },
-            });
-            const {correctRegister} = await response.json();
-            console.log(correctRegister)
-            if (correctRegister) {
-               router.push("/game");
+            const {valid, error} = await registerName(uuid, name)
+            if (!valid) {
+               setError(error + "Recargue esta pagina")
+            } else {
+               router.push('/game')
             }
          };
          fetchData(uuid, name);
       }
-   }, [confirmation, name, uuid, router]);
+   }, [confirmation, name, uuid, registerName, router]);
 
    useEffect(() => {
       const key = (event) => {
@@ -136,6 +135,9 @@ export default function GameInitialPage() {
                <div className="fixed bottom-0 w-full text-center p-4 text-unique-100">
                   {
                      val && <p>El nombre debe tener al menos 3 letras</p>
+                  }
+                  {
+                     error && <p>{error}</p>
                   }
                   <p>Escribe el nombre que quieres para tu personaje (minimo 3 letras)</p>
                   <p>Presiona Enter para continuar</p>
