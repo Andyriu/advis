@@ -14,9 +14,7 @@ interface IChecKPlayerResponse {
 
 export async function POST (req: Request): Promise<NextResponse<IChecKPlayerResponse>> {
    const supabase = await createClient()
-   console.log(req)
    const {email} = await req.json()
-   console.log(email, "esta mostrando alfo?")
    const {data, error} = await supabase
       .from('players')
       .select('*')
