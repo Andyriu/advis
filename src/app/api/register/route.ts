@@ -19,11 +19,7 @@ async function register(email, password) {
          .from("players")
          .insert([{ email: email }])
          .select();
-      if (error) {
-         return { success: !error, error };
-      } else {
-         return { success: !error, error };
-      }
+      return { success: !error, error };
    }
 }
 
