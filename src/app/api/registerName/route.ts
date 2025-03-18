@@ -1,6 +1,10 @@
-'use server'
-
 import { createClient } from "@/utils/supabase/server"
+import { NextResponse } from "next/server"
+
+interface IRegisterNameResponse {
+   valid: boolean
+   error?: string
+}
 
 async function registerName(uuid, name) {
    const supabase = await createClient()
@@ -9,40 +13,30 @@ async function registerName(uuid, name) {
       .update ({name: name})
       .eq ('player_id', uuid)
       .select()
-   return {success: !error, error}
-}
-
-   async function registerAttribute(uuid) {
-      const supabase = await createClient()
+   if (error) {
+      return {success: !error, error}
+   } else {
       const {error} = await supabase
          .from('attributes')
          .insert([{player_id: uuid}])
          .select()
-      return {success: !error, error}
+         return {success: !error, error}
    }
+}
 
-export async function POST(req: Request): Promise<Response> {
+export async function POST(req: Request): Promise<NextResponse<IRegisterNameResponse>> {
    const {uuid, name} = await req.json()
-   const responseRegisterName = await registerName(uuid, name)
-   console.log(responseRegisterName)
-   if (responseRegisterName) {
-      const responseRegisterAttribute = await registerAttribute(uuid)
-      if (responseRegisterAttribute){
-         return new Response(
-            JSON.stringify({ correctRegister: true, responseRegisterName, responseRegisterAttribute}), {
-               status: 200
-            }
-         )
-      } else {
-         return new Response(
-            JSON.stringify({ correctRegister: false, responseRegisterName, responseRegisterAttribute }),
-            { status: 500 }
-         )
-      }
+   const {success, error} = await registerName(uuid, name)
+   if (!success) {
+      console.log(error)
+      return NextResponse.json (
+         {valid: false, error: "Error Prueba en otro momento"},
+         {status: 200}
+      )
    } else {
-      return new Response(
-         JSON.stringify({ correctRegister: false, responseRegisterName}),
-         { status: 500 }
+      return NextResponse.json (
+         {valid: true},
+         {status: 200}
       )
    }
 }
