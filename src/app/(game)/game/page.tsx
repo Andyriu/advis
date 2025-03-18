@@ -6,7 +6,6 @@ import Padding from "@/components/Padding";
 import { createClient } from "@/utils/supabase/client";
 import styles from "./page.module.css";
 import { commands } from "@/utils/commands/commands";
-import useCheckEmail from "@/hooks/useCheckEmail";
 import useCheckPlayer from "@/hooks/useCheckPlayer";
 import useCheckAttributes from "@/hooks/useChechAttributes";
 
@@ -14,16 +13,16 @@ export default function GamePage() {
    const router = useRouter();
    const inputRef = useRef(null);
 
-   const [email, setEmail] = useState<string | null>(null);
-   const [uuid, setUuid] = useState<string | null>(null);
-   const [name, setName] = useState<string | null>(null);
-   const [health, sethealth] = useState<number | null>(null);
-   const [defense, setDefense] = useState<number | null>(null);
-   const [money, setMoney] = useState<number | null>(null);
-   const [level, setLevel] = useState<number | null>(null);
-   const [exp, setExp] = useState<number | null>(null);
+   const [email, setEmail] = useState<string>("");
+   const [uuid, setUuid] = useState<string>("");
+   const [name, setName] = useState<string>("");
+   const [health, sethealth] = useState<number>(0);
+   const [defense, setDefense] = useState<number>(0);
+   const [money, setMoney] = useState<number>(0);
+   const [level, setLevel] = useState<number>(0);
+   const [exp, setExp] = useState<number>(0);
    const [loading, setLoading] = useState(true);
-   const [comand, setComand] = useState<string | null>(null);
+   const [comand, setComand] = useState<string>("");
    const [existPlayer, setExistPlayer] = useState <boolean>(false)
    const {checkPlayer} = useCheckPlayer();
    const {checkAttributes} = useCheckAttributes();
@@ -54,7 +53,7 @@ export default function GamePage() {
                   setUuid(data.id)
                   setName(data.name)
                } else {
-                  router.push('/initial')
+                  router.push('/game/initial')
                }
             }
          }
