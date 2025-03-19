@@ -7,7 +7,7 @@ import { createClient } from "@/utils/supabase/client";
 import styles from "./page.module.css";
 import { commands } from "@/utils/commands/commands";
 import useCheckPlayer from "@/hooks/useCheckPlayer";
-import useCheckAttributes from "@/hooks/useChechAttributes";
+import useCheckAttributes from "@/hooks/useCheckAttributes";
 
 export default function GamePage() {
    const router = useRouter();
