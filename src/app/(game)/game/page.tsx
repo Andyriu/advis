@@ -6,26 +6,16 @@ import Padding from "@/components/Padding";
 import { createClient } from "@/utils/supabase/client";
 import styles from "./page.module.css";
 import { commands } from "@/utils/commands/commands";
-import useCheckPlayer from "@/hooks/useCheckPlayer";
-import useCheckAttributes from "@/hooks/useCheckAttributes";
+import usePlayer from "@/hooks/usePlayer";
 
 export default function GamePage() {
    const router = useRouter();
    const inputRef = useRef(null);
 
-   const [email, setEmail] = useState<string>("");
-   const [uuid, setUuid] = useState<string>("");
-   const [name, setName] = useState<string>("");
-   const [health, sethealth] = useState<number>(0);
-   const [defense, setDefense] = useState<number>(0);
-   const [money, setMoney] = useState<number>(0);
-   const [level, setLevel] = useState<number>(0);
-   const [exp, setExp] = useState<number>(0);
+   const {player, uuid, name, health, defense, money, level, exp} = usePlayer();
+
    const [loading, setLoading] = useState(true);
    const [comand, setComand] = useState<string>("");
-   const [existPlayer, setExistPlayer] = useState <boolean>(false)
-   const {checkPlayer} = useCheckPlayer();
-   const {checkAttributes} = useCheckAttributes();
 
    useEffect(() => {
       const fetchData = async () => {
@@ -34,52 +24,17 @@ export default function GamePage() {
          if (error || !data?.user) {
             router.push("/login");
          } else {
-            setEmail(data.user.email);
-            setExistPlayer(true)
+            const {exist, error} = await player(data.user.email)
+            if (exist) {
+               setLoading(false)
+            } else {
+               console.log(error)
+               router.push('/game/initial')
+            }
          }
       };
       fetchData();
-   }, [router, existPlayer]);
-
-   useEffect(() => {
-      if (email) {
-         const fetchData = async (email: string) => {
-            const {valid, data, error} = await checkPlayer(email)
-            if (!valid) {
-               console.log(error)
-               router.push('/game')
-            } else {
-               if (data.name){
-                  setUuid(data.id)
-                  setName(data.name)
-               } else {
-                  router.push('/game/initial')
-               }
-            }
-         }
-         fetchData(email)
-      };
-   }, [email, checkPlayer, router]);
-
-   useEffect (() => {
-      if (name) {
-         const fetchData = async (uuid: string) => {
-            const {valid, data, error} = await checkAttributes(uuid)
-            if (!valid) {
-               console.log(error)
-               router.push('/game')
-            } else {
-               setLevel(data.level)
-               sethealth(data.health)
-               setDefense(data.defense)
-               setMoney(data.money)
-               setExp(data.exp)
-               setLoading(false)
-            }
-         }
-         fetchData(uuid)
-      }
-   },[name, uuid, checkAttributes, router])
+   }, [router, player]);
 
    const executeCommand = useCallback(
       (commandText) => {
@@ -95,7 +50,7 @@ export default function GamePage() {
       const action = commands[command];
 
       if (action) {
-         return action(...args);
+         return action(...args,);
       } else {
          return `Comando no reconocido: ${command}`;
       }
