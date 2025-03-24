@@ -30,7 +30,6 @@ const usePlayer = () => {
     const [exp, setExp] = useState<number>(0);
     
     const functionCheckAttributes = async(id: string): Promise<IFunctionCheckAttributesResponse> => {
-        console.log(id, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
         const {valid, data, error} = await checkAttributes(id)
         if (valid) {
             setHealth(data.health)
@@ -68,7 +67,11 @@ const usePlayer = () => {
             return {exist: false, error: error} 
         }
     }
-    return {player, uuid, name, health, defense, money, level, exp}
+
+    const updateAttributes = async (id: string): Promise<void> =>{
+        functionCheckAttributes(id)
+    }
+    return {player, uuid, name, health, defense, money, level, exp, updateAttributes}
 }
 
 export default usePlayer
