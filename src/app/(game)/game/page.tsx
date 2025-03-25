@@ -8,6 +8,7 @@ import styles from "./page.module.css";
 import { commands } from "@/utils/commands/commands";
 import usePlayer from "@/hooks/usePlayer";
 import useBuyCommand from "@/hooks/useBuyCOmmnand";
+import { log } from "console";
 
 export default function GamePage() {
    const router = useRouter();
@@ -57,6 +58,12 @@ export default function GamePage() {
          } else {
             return `Comando no reconocido: ${command}`;
          }
+         console.log('dasdas');
+         console.log('dma,smda');
+         console.log('daskjdkas');
+         
+         
+         
       }, [executeBuy]
    )
 
