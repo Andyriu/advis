@@ -101,14 +101,14 @@ export default function GameInitialPage() {
 
    if (count < texts.length) {
       return (
-         <div className="flex items-center justify-center h-screen flex-col">
+         <div>
             <div className={styles.typewriter} key={count}>
-               <div className="text-center">
-                  <p className="text-2xl">{texts[count]}</p>
+               <div>
+                  <p >{texts[count]}</p>
                </div>
             </div>
-            <div className="flex flex-col items-center mt-4">
-               <div className="fixed bottom-0 w-full text-center p-4 text-unique-100">
+            <div>
+               <div>
                   <p>Presiona Enter para continuar</p>
                </div>
             </div>
@@ -117,10 +117,10 @@ export default function GameInitialPage() {
    }
    if (count === 5) {
       return (
-         <div className="flex items-center justify-center h-screen flex-col">
+         <div>
             <div className={styles.typewriter}>
-               <div className="text-center">
-                  <p className="text-2xl">¡Hola {name}!</p>
+               <div>
+                  <p>¡Hola {name}!</p>
                </div>
             </div>
             <input
@@ -128,11 +128,10 @@ export default function GameInitialPage() {
                value={name}
                onChange={(event) => setName(event.target.value)}
                autoFocus
-               className="opacity-0 absolute"
                placeholder="Escribe tu nombre"
             />
-            <div className="flex flex-col items-center mt-4">
-               <div className="fixed bottom-0 w-full text-center p-4 text-unique-100">
+            <div>
+               <div>
                   {
                      val && <p>El nombre debe tener al menos 3 letras</p>
                   }
@@ -150,14 +149,14 @@ export default function GameInitialPage() {
 
    if (name.length >= 3 && count === 6) {
       return (
-         <div className="flex items-center justify-center h-screen flex-col">
+         <div>
             <div className={styles.typewriter} key={count}>
-               <div className="text-center">
-                  <p className="text-2xl">¡Bienvenido {name} a este mundo, disfruta esta aventura!</p>
+               <div>
+                  <p>¡Bienvenido {name} a este mundo, disfruta esta aventura!</p>
                </div>
             </div>
-            <div className="flex flex-col items-center mt-4">
-               <div className="fixed bottom-0 w-full text-center p-4 text-unique-100">
+            <div>
+               <div>
                   <p>Presiona Enter para continuar</p>
                </div>
             </div>

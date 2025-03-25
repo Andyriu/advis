@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Padding from "@/components/Padding";
 import { createClient } from "@/utils/supabase/client";
-import styles from "./page.module.css";
+import styles from "./page.module.css"
 import { commands } from "@/utils/commands/commands";
 import usePlayer from "@/hooks/usePlayer";
 import useBuyCommand from "@/hooks/useBuyCOmmnand";
@@ -115,9 +115,9 @@ export default function GamePage() {
 
    if (loading) {
       return (
-         <div className="flex items-center justify-center h-screen">
+         <div >
             <div className={styles.typewriter}>
-               <p className="text-2xl ">Cargando...</p>
+               <p>Cargando...</p>
             </div>
          </div>
       );
@@ -125,11 +125,11 @@ export default function GamePage() {
 
    return (
       <Padding>
-         <div className="flex justify-evenly">
+         <div>
             <div>
-               <div className={"p-7 rounded-xl w-96 ${styles.console}"}>
-                  <div className="text-unique-100 font-mono text-xl">
-                     <div className="flex items-center">
+               <div className={styles.console}>
+                  <div>
+                     <div>
                         <p>{comand}</p>
                         <span className={styles.cursor}></span>
                      </div>
@@ -139,23 +139,22 @@ export default function GamePage() {
                      value={comand}
                      onChange={(event) => setComand(event.target.value)}
                      autoFocus
-                     className="opacity-0 absolute"
                      ref={inputRef}
                   />
                </div>
-               <div className="p-7 bg-unique-500 rounded-xl">
-                  <h1 className="bg-unique-100">como esta distribuido esto?</h1>
-                  {validInitial && <p className="bg-unique-100">nombre:{name}</p>}
-                  {validInitial && <p className="bg-unique-100">id:{uuid}</p>}
-                  {validInitial && <p className="bg-unique-100">vida:{health}</p>}
-                  {validInitial && <p className="bg-unique-100">defensa:{defense}</p>}
-                  {validInitial && <p className="bg-unique-100">Nivel:{level}</p>}
-                  {validInitial && <p className="bg-unique-100">Exp:{exp}</p>}
-                  {validInitial && <p className="bg-unique-100">Dinero:{money}</p>}
+               <div>
+                  <h1>como esta distribuido esto?</h1>
+                  {validInitial && <p>nombre:{name}</p>}
+                  {validInitial && <p>id:{uuid}</p>}
+                  {validInitial && <p>vida:{health}</p>}
+                  {validInitial && <p>defensa:{defense}</p>}
+                  {validInitial && <p>Nivel:{level}</p>}
+                  {validInitial && <p>Exp:{exp}</p>}
+                  {validInitial && <p>Dinero:{money}</p>}
                </div>
             </div>
             <div>
-               <p className="bg-unique-100">historial de chat?</p>
+               <p>historial de chat?</p>
             </div>
          </div>
       </Padding>

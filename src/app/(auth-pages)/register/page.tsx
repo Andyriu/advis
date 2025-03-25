@@ -28,37 +28,35 @@ export default function RegisterPage () {
       }
    }
    return(
-      <div className="flex justify-center items-center h-screen bg-unique-900">
+      <div>
          <div>
-         <h2 className="font-semibold text-3xl py-5 text-unique-400 flex justify-center">Crear Cuenta</h2>
-         <div className="bg-unique-500 p-8 rounded-xl shadow-md w-96">
-            {error && <p className="text-unique-900 text-center mb-4">{error}</p>}
+         <h2>Crear Cuenta</h2>
+         <div>
+            {error && <p>{error}</p>}
             <form onSubmit={handleRegister}>
-               <div className="mb-4">
-                  <label htmlFor="email" className="font-medium text-lg pl-2 text-unique-900 p-2">Correo Electrónico</label>
+               <div>
+                  <label htmlFor="email">Correo Electrónico</label>
                   <input
                      type="email"
                      id="email"
                      value={email}
                      onChange={(e) => setEmail(e.target.value)}
-                     className="text-unique-900 p-2 rounded-lg bg-unique-100 w-full"
                      required
                   />
                </div>
 
                <div className="mb-4">
-                  <label htmlFor="password" className="font-medium text-lg pl-2 text-unique-900 p-2">Contraseña</label>
+                  <label htmlFor="password">Contraseña</label>
                   <input
                      type="password"
                      id="password"
                      value={password}
                      onChange={(e) => setPassword(e.target.value)}
-                     className="text-unique-900 p-2 rounded-lg bg-unique-100 w-full"
                      required
                   />
                </div>
 
-               <button type="submit" className="w-full py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+               <button type="submit">
                   Registrarse
                </button>
             </form>
