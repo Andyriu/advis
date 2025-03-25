@@ -58,12 +58,6 @@ export default function GamePage() {
          } else {
             return `Comando no reconocido: ${command}`;
          }
-         console.log('dasdas');
-         console.log('dma,smda');
-         console.log('daskjdkas');
-         
-         
-         
       }, [executeBuy]
    )
 
