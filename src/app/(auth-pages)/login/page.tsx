@@ -32,29 +32,29 @@ export default function LoginPage() {
    return (
       <div>
          <Padding>
-            <div className="pt-6 pl-5 text-6xl font-semibold text-unique-400">
+            <div>
                <h1>
                   <Link href="/">
                      Advis
                   </Link>
                </h1>
             </div>
-            <div className=" flex justify-center">
+            <div>
                <div>
-                  <h2 className="font-semibold text-3xl py-5 text-unique-400 flex justify-center">
+                  <h2>
                      Inicia sesion
                   </h2>
-                  <div className="p-7 bg-unique-500 rounded-xl w-96">
+                  <div>
                      <div>
                         {error && (
-                           <p className="font-bold break-normal break-words text-center">
+                           <p>
                               {error}
                            </p>
                         )}
                      </div>
                      <form onSubmit={handleLogin}>
                         <div>
-                           <p className="font-medium text-lg pl-2 text-unique-900 p-2">
+                           <p>
                               Email
                            </p>
                            <label>
@@ -65,12 +65,11 @@ export default function LoginPage() {
                                  value={email}
                                  onChange={(e) => setEmail(e.target.value)}
                                  required
-                                 className="p-2 rounded-lg font-semibold text-unique-900 bg-unique-100 w-full"
                               />
                            </label>
                         </div>
                         <div>
-                           <p className="font-medium text-lg pl-2 text-unique-900 p-2">
+                           <p>
                               Contraseña
                            </p>
                            <label>
@@ -78,17 +77,15 @@ export default function LoginPage() {
                                  id="password"
                                  name="password"
                                  type="password"
-                                 className="text-unique-900 p-2 rounded-lg bg-unique-100 w-full"
                                  value={password}
                                  onChange={(e) => setPassword(e.target.value)}
                                  required
                               />
                            </label>
                         </div>
-                        <div className="flex justify-center py-3">
+                        <div>
                            <button
                               type="submit"
-                              className="bg-unique-300 p-2 rounded-lg font-semibold text-unique-900 border-unique-850 hover:bg-unique-400 w-full"
                            >
                               Iniciar sesion
                            </button>
@@ -97,7 +94,7 @@ export default function LoginPage() {
                   </div>
                </div>
             </div>
-            <p className="text-center font-bold text-unique-500 pt-4 underline">
+            <p>
                <Link href="/register">
                   registrate
                </Link>
