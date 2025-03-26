@@ -1,0 +1,36 @@
+.nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.navLinkLogo {
+    padding-left: 50px;
+    text-decoration: none;
+    color: var(--amethyst-600);
+    font-size: xxx-large;
+}
+
+.navLink {
+    padding-right: 50px;
+    text-decoration: none;
+    font-size: larger;
+    color: var(--amethyst-100);
+    font-weight: 600;
+    transition: color 0.3 ease; 
+}
+
+.navLink:hover {
+    color: var(--amethyst-500);
+}
+
+
+.container {
+    background-color: var(--amethyst-1000);
+    padding: 1 rem 2 rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

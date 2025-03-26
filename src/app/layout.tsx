@@ -3,8 +3,7 @@ import { Fira_Code } from "next/font/google";
 import "./globals.css";
 
 const firacode = Fira_Code ({
-  subsets: ['latin'],
-  display: 'swap'
+  subsets: ['latin']  
 })
 
 export const metadata: Metadata = {
@@ -13,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({children,}: Readonly<{children: React.ReactNode;}>) {
   return (
-    <html lang="es">
+    <html lang="es" className={firacode.className}>
       <body>
         {children}
       </body>

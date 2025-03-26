@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Padding from "@/components/Padding";
+import Padding from "@/components/Padding/Padding";
 import Link from "next/link";
 import useCheckEmail from "@/hooks/useCheckEmail";
 import useLogin from "@/hooks/useLogin";
+import styles from "./page.module.css";
 
 export default function LoginPage() {
    const router = useRouter();
@@ -30,76 +31,48 @@ export default function LoginPage() {
       }
    };
    return (
-      <div>
-         <Padding>
-            <div>
-               <h1>
-                  <Link href="/">
-                     Advis
-                  </Link>
-               </h1>
-            </div>
-            <div>
-               <div>
-                  <h2>
-                     Inicia sesion
-                  </h2>
-                  <div>
-                     <div>
-                        {error && (
-                           <p>
-                              {error}
-                           </p>
-                        )}
-                     </div>
-                     <form onSubmit={handleLogin}>
-                        <div>
-                           <p>
-                              Email
-                           </p>
-                           <label>
-                              <input
-                                 id="email"
-                                 name="email"
-                                 type="email"
-                                 value={email}
-                                 onChange={(e) => setEmail(e.target.value)}
-                                 required
-                              />
-                           </label>
-                        </div>
-                        <div>
-                           <p>
-                              Contraseña
-                           </p>
-                           <label>
-                              <input
-                                 id="password"
-                                 name="password"
-                                 type="password"
-                                 value={password}
-                                 onChange={(e) => setPassword(e.target.value)}
-                                 required
-                              />
-                           </label>
-                        </div>
-                        <div>
-                           <button
-                              type="submit"
-                           >
-                              Iniciar sesion
-                           </button>
-                        </div>
-                     </form>
-                  </div>
-               </div>
-            </div>
-            <p>
-               <Link href="/register">
-                  registrate
+      <Padding>
+         <div>
+            <h1>
+               <Link href="/" className={styles.title}>
+                  Advis
                </Link>
+            </h1>
+            <div className={styles.container}>
+               <h2 className={styles.subtitle}>Inicia sesión</h2>
+               {error && <p className={styles.error}>{error}</p>}
+               <form onSubmit={handleLogin}>
+                  <div>
+                     <p className={styles.text}>Correo electronico</p>
+                     <input
+                        id="email"
+                        type="email"
+                        className={styles.input}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                     />
+                  </div>
+                  <div>
+                     <p className={styles.text}>Contraseña</p>
+                     <input
+                        id="password"
+                        type="password"
+                        className={styles.input}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                     />
+                  </div>
+                  <button type="submit" className={styles.button}>
+                     Iniciar sesión
+                  </button>
+               </form>
+            </div>
+            <p className={styles.registerLink}>
+               <Link href="/register">Regístrate</Link>
             </p>
-         </Padding>
-      </div>
+         </div>
+      </Padding>
    );
 }
