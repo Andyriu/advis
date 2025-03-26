@@ -6,7 +6,7 @@ import Link from "next/link";
 import useCheckEmail from "@/hooks/useCheckEmail";
 import useRegister from "@/hooks/useRegister";
 import styles from "./page.module.css";
-import Padding from "@/components/Padding";
+import Padding from "@/components/Padding/Padding";
 
 export default function RegisterPage() {
    const router = useRouter();
