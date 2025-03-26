@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Padding from "@/components/Padding";
+import Padding from "@/components/Padding/Padding";
 import Link from "next/link";
 import useCheckEmail from "@/hooks/useCheckEmail";
 import useLogin from "@/hooks/useLogin";
