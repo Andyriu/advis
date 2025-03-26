@@ -3,5 +3,23 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Fira Code', sans-serif
+  font-family: 'Fira Code', sans-serif;
+  background-color: var(--amethyst-1000);
+  color: var(--amethyst-200);
+  text-decoration: none;
+}
+
+:root {
+  --amethyst-50: #fbf7fd;
+  --amethyst-100: #f5edfa;
+  --amethyst-200: #eeddf7;
+  --amethyst-300: #e0c3ef;
+  --amethyst-400: #cd9ce4;
+  --amethyst-500: #b976d6;
+  --amethyst-600: #aa60c8;
+  --amethyst-700: #8f45ab;
+  --amethyst-800: #773c8d;
+  --amethyst-900: #613271;
+  --amethyst-950: #431a51;
+  --amethyst-1000: #18181B;
 }
